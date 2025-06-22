@@ -1,0 +1,590 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cyber Payment Gateway</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;600;700&family=Rajdhani:wght@300;400;500;600;700&display=swap');
+        
+        :root {
+            --cyber-blue: #00f7ff;
+            --cyber-purple: #bd00ff;
+            --cyber-pink: #ff00b8;
+            --cyber-dark: #0a0a14;
+            --cyber-dana: #00a0e0;
+            --cyber-gopay: #00ff88;
+            --neon-glow: 0 0 10px rgba(0, 247, 255, 0.8),
+                          0 0 20px rgba(0, 247, 255, 0.6),
+                          0 0 30px rgba(0, 247, 255, 0.4);
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            background-color: var(--cyber-dark);
+            color: white;
+            font-family: 'Rajdhani', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow-x: hidden;
+            background-image: 
+                radial-gradient(circle at 20% 30%, rgba(189, 0, 255, 0.1) 0%, transparent 25%),
+                radial-gradient(circle at 80% 70%, rgba(0, 247, 255, 0.1) 0%, transparent 25%);
+        }
+        
+        .cyber-grid {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-image: 
+                linear-gradient(rgba(0, 247, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 247, 255, 0.1) 1px, transparent 1px);
+            background-size: 40px 40px;
+            z-index: -1;
+            opacity: 0.3;
+        }
+        
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 40px;
+            padding: 40px 20px;
+            position: relative;
+        }
+        
+        .cyber-card {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(10, 10, 20, 0.7);
+            border-radius: 10px;
+            border: 1px solid rgba(0, 247, 255, 0.3);
+            padding: 30px;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+        
+        .cyber-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple), var(--cyber-pink));
+        }
+        
+        .cyber-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7), var(--neon-glow);
+            border-color: var(--cyber-blue);
+        }
+        
+        .card-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 25px;
+            position: relative;
+        }
+        
+        .card-logo {
+            width: 60px;
+            height: 60px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-right: 20px;
+            border: 2px solid var(--cyber-blue);
+            box-shadow: var(--neon-glow);
+        }
+        
+        .card-logo img {
+            width: 70%;
+            filter: drop-shadow(0 0 5px rgba(0, 247, 255, 0.7));
+        }
+        
+        .card-title {
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 700;
+            font-size: 28px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            background: linear-gradient(90deg, var(--cyber-blue), var(--cyber-purple));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 10px rgba(0, 247, 255, 0.3);
+        }
+        
+        .dana-card .card-title {
+            background: linear-gradient(90deg, var(--cyber-dana), #00f7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        
+        .gopay-card .card-title {
+            background: linear-gradient(90deg, var(--cyber-gopay), #00f7ff);
+            -webkit-background-clip: text;
+            background-clip: text;
+        }
+        
+        .card-description {
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 30px;
+            line-height: 1.6;
+            font-size: 16px;
+            font-weight: 300;
+        }
+        
+        .payment-section {
+            background: rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 25px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                45deg,
+                transparent 45%,
+                rgba(0, 247, 255, 0.05) 50%,
+                transparent 55%
+            );
+            background-size: 200% 200%;
+            animation: scan 3s linear infinite;
+        }
+        
+        @keyframes scan {
+            0% {
+                background-position: 100% 100%;
+            }
+            100% {
+                background-position: 0% 0%;
+            }
+        }
+        
+        .payment-label {
+            font-family: 'Orbitron', sans-serif;
+            font-size: 14px;
+            color: var(--cyber-blue);
+            margin-bottom: 15px;
+            letter-spacing: 1px;
+            display: flex;
+            align-items: center;
+        }
+        
+        .payment-label svg {
+            margin-right: 8px;
+        }
+        
+        .payment-number {
+            font-family: 'Rajdhani', sans-serif;
+            font-size: 24px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: white;
+            text-align: center;
+            padding: 15px;
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 5px;
+            margin-bottom: 20px;
+            border: 1px solid rgba(0, 247, 255, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .payment-number::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(0, 247, 255, 0.2),
+                transparent
+            );
+            animation: shine 2s infinite;
+        }
+        
+        @keyframes shine {
+            100% {
+                left: 100%;
+            }
+        }
+        
+        .copy-btn {
+            width: 100%;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-family: 'Orbitron', sans-serif;
+            font-weight: 600;
+            letter-spacing: 1px;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .dana-card .copy-btn {
+            background: linear-gradient(90deg, var(--cyber-dana), #0066cc);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 160, 224, 0.5);
+        }
+        
+        .gopay-card .copy-btn {
+            background: linear-gradient(90deg, var(--cyber-gopay), #008855);
+            color: white;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+        
+        .copy-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 247, 255, 0.5);
+        }
+        
+        .copy-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(
+                90deg,
+                transparent,
+                rgba(255, 255, 255, 0.2),
+                transparent
+            );
+            transition: 0.5s;
+        }
+        
+        .copy-btn:hover::before {
+            left: 100%;
+        }
+        
+        .qr-container {
+            display: flex;
+            justify-content: center;
+            margin: 30px 0;
+            position: relative;
+        }
+        
+        .qr-placeholder {
+            width: 180px;
+            height: 180px;
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px dashed rgba(0, 247, 255, 0.5);
+            border-radius: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .qr-placeholder::before {
+            content: 'QR CODE';
+            position: absolute;
+            color: rgba(0, 247, 255, 0.3);
+            font-family: 'Orbitron', sans-serif;
+            font-size: 18px;
+            letter-spacing: 2px;
+        }
+        
+        .qr-placeholder::after {
+            content: '';
+            position: absolute;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(
+                to bottom right,
+                transparent 45%,
+                rgba(0, 247, 255, 0.1) 50%,
+                transparent 55%
+            );
+            animation: scan 3s linear infinite;
+        }
+        
+        .instructions {
+            font-size: 14px;
+            color: rgba(255, 255, 255, 0.6);
+            text-align: center;
+            margin-top: 20px;
+            line-height: 1.6;
+        }
+        
+        .cyber-corner {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border-color: var(--cyber-blue);
+            border-style: solid;
+            border-width: 0;
+        }
+        
+        .corner-tl {
+            top: 10px;
+            left: 10px;
+            border-top-width: 2px;
+            border-left-width: 2px;
+        }
+        
+        .corner-tr {
+            top: 10px;
+            right: 10px;
+            border-top-width: 2px;
+            border-right-width: 2px;
+        }
+        
+        .corner-bl {
+            bottom: 10px;
+            left: 10px;
+            border-bottom-width: 2px;
+            border-left-width: 2px;
+        }
+        
+        .corner-br {
+            bottom: 10px;
+            right: 10px;
+            border-bottom-width: 2px;
+            border-right-width: 2px;
+        }
+        
+        .cyber-line {
+            position: absolute;
+            background: linear-gradient(90deg, transparent, var(--cyber-blue), transparent);
+            height: 1px;
+            width: 100px;
+        }
+        
+        .line-top {
+            top: 0;
+            left: 50px;
+            animation: line-move 3s infinite;
+        }
+        
+        .line-bottom {
+            bottom: 0;
+            right: 50px;
+            animation: line-move 3s infinite reverse;
+        }
+        
+        @keyframes line-move {
+            0% {
+                transform: translateX(-100px);
+                opacity: 0;
+            }
+            20%, 80% {
+                opacity: 1;
+            }
+            100% {
+                transform: translateX(100px);
+                opacity: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+                gap: 30px;
+            }
+            
+            .cyber-card {
+                padding: 20px;
+            }
+            
+            .card-title {
+                font-size: 24px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="cyber-grid"></div>
+    
+    <div class="container">
+        <!-- DANA Card -->
+        <div class="cyber-card dana-card">
+            <div class="cyber-corner corner-tl"></div>
+            <div class="cyber-corner corner-tr"></div>
+            <div class="cyber-corner corner-bl"></div>
+            <div class="cyber-corner corner-br"></div>
+            <div class="cyber-line line-top"></div>
+            <div class="cyber-line line-bottom"></div>
+            
+            <div class="card-header">
+                <div class="card-logo">
+                    <img src="https://dana.id/assets/images/logo-dana.svg" alt="DANA">
+                </div>
+                <h1 class="card-title">DANA PAYMENT</h1>
+            </div>
+            
+            <p class="card-description">
+                Transfer payment via DANA mobile app to the cyber-secure number below. 
+                Your transaction will be encrypted through our neural network firewall.
+            </p>
+            
+            <div class="qr-container">
+                <div class="qr-placeholder"></div>
+            </div>
+            
+            <div class="payment-section">
+                <div class="payment-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    DANA PAYMENT NUMBER
+                </div>
+                <div class="payment-number">0887 • 0707 • 7306</div>
+                <button class="copy-btn" onclick="copyToClipboard('088707077306')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    COPY NUMBER
+                </button>
+            </div>
+            
+            <p class="instructions">
+                After payment, send confirmation with transaction ID to our cyber-support terminal for verification.
+            </p>
+        </div>
+        
+        <!-- GOPAY Card -->
+        <div class="cyber-card gopay-card">
+            <div class="cyber-corner corner-tl"></div>
+            <div class="cyber-corner corner-tr"></div>
+            <div class="cyber-corner corner-bl"></div>
+            <div class="cyber-corner corner-br"></div>
+            <div class="cyber-line line-top"></div>
+            <div class="cyber-line line-bottom"></div>
+            
+            <div class="card-header">
+                <div class="card-logo">
+                    <img src="https://www.gojek.com/assets/images/logo/gojek.svg" alt="GOPAY">
+                </div>
+                <h1 class="card-title">GOPAY PAYMENT</h1>
+            </div>
+            
+            <p class="card-description">
+                Initiate GOPAY transfer to the quantum-encrypted number below. 
+                Our blockchain verification will process your transaction within nanoseconds.
+            </p>
+            
+            <div class="qr-container">
+                <div class="qr-placeholder"></div>
+            </div>
+            
+            <div class="payment-section">
+                <div class="payment-label">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                    </svg>
+                    GOPAY PAYMENT NUMBER
+                </div>
+                <div class="payment-number">0851 • 9156 • 6983</div>
+                <button class="copy-btn" onclick="copyToClipboard('085191566983')">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
+                        <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                    </svg>
+                    COPY NUMBER
+                </button>
+            </div>
+            
+            <p class="instructions">
+                Transaction confirmation must be submitted to our neural network for quantum validation.
+            </p>
+        </div>
+    </div>
+    
+    <script>
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text.replace(/\s+/g, '')).then(function() {
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.textContent = 'Copied: ' + text;
+                notification.style.position = 'fixed';
+                notification.style.bottom = '20px';
+                notification.style.left = '50%';
+                notification.style.transform = 'translateX(-50%)';
+                notification.style.backgroundColor = 'rgba(0, 247, 255, 0.9)';
+                notification.style.color = 'var(--cyber-dark)';
+                notification.style.padding = '10px 20px';
+                notification.style.borderRadius = '5px';
+                notification.style.fontFamily = '"Orbitron", sans-serif';
+                notification.style.fontWeight = 'bold';
+                notification.style.letterSpacing = '1px';
+                notification.style.boxShadow = '0 0 15px rgba(0, 247, 255, 0.7)';
+                notification.style.zIndex = '1000';
+                notification.style.animation = 'fadeInOut 2s ease-in-out';
+                
+                document.body.appendChild(notification);
+                
+                // Remove after animation
+                setTimeout(() => {
+                    notification.remove();
+                }, 2000);
+            }, function(err) {
+                console.error('Could not copy text: ', err);
+            });
+        }
+        
+        // Add cyber glitch effect on cards
+        document.querySelectorAll('.cyber-card').forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.boxShadow = '0 0 30px rgba(0, 247, 255, 0.7)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.boxShadow = '0 0 20px rgba(0, 0, 0, 0.5)';
+            });
+        });
+        
+        // Add style for notification animation
+        const style = document.createElement('style');
+        style.textContent = `
+            @keyframes fadeInOut {
+                0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+                20% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                80% { opacity: 1; transform: translateX(-50%) translateY(0); }
+                100% { opacity: 0; transform: translateX(-50%) translateY(-20px); }
+            }
+        `;
+        document.head.appendChild(style);
+    </script>
+</body>
+</html>
